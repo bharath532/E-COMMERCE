@@ -12,7 +12,11 @@ dotenv.config({ path: path.join(__dirname, 'Config', 'config.env') });
 const app = express();
 
 // ✅ Middlewares
-app.use(cors({ origin: "http://localhost:5173", credentials: true })); // change port if needed
+app.use(cors({
+  origin: ["http://localhost:5173", "https://e-commerce-chi-three-57.vercel.app"],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 

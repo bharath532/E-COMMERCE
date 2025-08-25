@@ -4,15 +4,20 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const products = [
-  { id: "1", name: "iPhone 14 Pro", price: 2000.0, category: "mobile", image: "/src/assets/Product Images/iphoneimg.jfif", rating: 5.0, reviews: 34244, description: "Latest iPhone with A16 Bionic chip" },
-  { id: "2", name: "Samsung Galaxy S23", price: 1050.0, category: "mobile", image: "/src/assets/Product Images/samsung S23.jpg", rating: 4.4, reviews: 5078, description: "Powerful Android flagship with Snapdragon 8 Gen 2" },
-  { id: "3", name: "MacBook Air M2", price: 6500.0, category: "laptop", image: "/src/assets/Product Images/mac book air m2.jpg", rating: 5.0, reviews: 3405, description: "Ultra-thin laptop with Apple Silicon M2 chip" },
-  { id: "4", name: "Dell XPS 13", price: 4000.0, category: "laptop", image: "/src/assets/Product Images/dell xps13.jpg", rating: 4.0, reviews: 4100, description: "Premium ultrabook with InfinityEdge display" },
-  { id: "5", name: "OnePlus Nord CE 3", price: 980.0, category: "mobile", image: "/src/assets/Product Images/oneplusce3.jpg", rating: 4.0, reviews: 3010, description: "Affordable 5G smartphone with great features" },
-  { id: "7", name: "MOUSE", price: 300.0, category: "accessory", image: "/src/assets/Product Images/mouse.jpg", rating: 3.5, reviews: 260, description: "Ergonomic wireless mouse for productivity" },
-  { id: "8", name: "MOXIE V20", price: 400.0, category: "watch", image: "/src/assets/Product Images/moxiev20.jpg", rating: 4.6, reviews: 1400, description: "Smart fitness watch with health tracking" },
-  { id: "9", name: "HP KEYBOARD", price: 500.0, category: "accessory", image: "/src/assets/Product Images/boat.jpg", rating: 4.9, reviews: 1600, description: "Durable mechanical keyboard for fast typing" },
+  { id: "1", name: "IPHONE 13", price: 2000, image: "/images/product/iphoneimg.jfif", rating: 4.4, reviews: 1500 },
+  { id: "2", name: "SAMSUNG", price: 1050, image: "/images/product/samsungS23.jpg", rating: 4.0, reviews: 200 },
+  { id: "3", name: "BOAT", price: 500, image: "/images/product/boat.jpg", rating: 4.8, reviews: 160 },
+  { id: "4", name: "MOXIS", price: 400, image: "/images/product/moxiev20.jpg", rating: 4.6, reviews: 190 },
+  { id: "5", name: "SAN DISK", price: 100, image: "/images/product/sandisk.jpg", rating: 4.6, reviews: 190 },
+  { id: "6", name: "KEYBOARD", price: 200, image: "/images/product/keyboard.jpg", rating: 4.6, reviews: 190 },
+  { id: "7", name: "MOUSE", price: 300, image: "/images/product/mouse.jpg", rating: 4.6, reviews: 190 },
+  { id: "8", name: "AIR BUDS", price: 700, image: "/images/product/airbuds.jpg", rating: 4.6, reviews: 190 },
+  { id: "9", name: "DELL XPS 13", price: 700, image: "/images/product/dellxps13.jpg", rating: 4.6, reviews: 190 },
+  { id: "10", name: "MAC BOOK AIR M2", price: 700, image: "/images/product/macbookairm2.jpg", rating: 4.6, reviews: 190 },
+  { id: "11", name: "MOXIE V20", price: 700, image: "/images/product/moxiev20.jpg", rating: 4.6, reviews: 190 },
+  { id: "12", name: "HP LAPTOP 15", price: 700, image: "/images/product/hplaptop.jfif", rating: 4.6, reviews: 190 },
 ];
+
 
 export default function Products() {
   const [cart, setCart] = useState([]);
@@ -88,10 +93,10 @@ const handleDecrease = async (product) => {
 
 
   // Filter products
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+ const filteredProducts = products.filter(product =>
+  product.name.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
 
   return (
     <>

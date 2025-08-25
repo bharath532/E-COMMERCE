@@ -5,14 +5,14 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 export default function Mainpage() {
   const products = [
-    { id: "1", name: "IPHONE 13", price: 2000, image: "/src/assets/Product Images/iphoneimg.jfif", rating: 4.4, reviews: 1500 },
-    { id: "2", name: "SAMSUNG", price: 1050, image: "/src/assets/Product Images/samsung S23.jpg", rating: 4.0, reviews: 200 },
-    { id: "3", name: "BOAT", price: 500, image: "/src/assets/Product Images/boat.jpg", rating: 4.8, reviews: 160 },
-    { id: "4", name: "MOXIS", price: 400, image: "/src/assets/Product Images/moxiev20.jpg", rating: 4.6, reviews: 190 },
-    { id: "5", name: "SAN DISK", price: 100, image: "/src/assets/Product Images/sandisk.jpg", rating: 4.6, reviews: 190 },
-    { id: "6", name: "KEYBOARD", price: 200, image: "/src/assets/Product Images/keyboard.jpg", rating: 4.6, reviews: 190 },
-    { id: "7", name: "MOUSE", price: 300, image: "/src/assets/Product Images/mouse.jpg", rating: 4.6, reviews: 190 },
-    { id: "8", name: "AIR BUDS", price: 700, image: "/src/assets/Product Images/airbuds.jpg", rating: 4.6, reviews: 190 },
+    { id: "1", name: "IPHONE 13", price: 2000, image: "/images/product/iphoneimg.jfif", rating: 4.4, reviews: 1500 },
+    { id: "2", name: "SAMSUNG", price: 1050, image: "/images/product/samsungS23.jpg", rating: 4.0, reviews: 200 },
+    { id: "3", name: "BOAT", price: 500, image: "/images/product/boat.jpg", rating: 4.8, reviews: 160 },
+    { id: "4", name: "MOXIS", price: 400, image: "/images/product/moxiev20.jpg", rating: 4.6, reviews: 190 },
+    { id: "5", name: "SAN DISK", price: 100, image: "/images/product/sandisk.jpg", rating: 4.6, reviews: 190 },
+    { id: "6", name: "KEYBOARD", price: 200, image: "/images/product/keyboard.jpg", rating: 4.6, reviews: 190 },
+    { id: "7", name: "MOUSE", price: 300, image: "/images/product/mouse.jpg", rating: 4.6, reviews: 190 },
+    { id: "8", name: "AIR BUDS", price: 700, image: "/images/product/airbuds.jpg", rating: 4.6, reviews: 190 },
   ];
 
   return (
@@ -33,7 +33,7 @@ export default function Mainpage() {
               <li className="nav-item"><Link className="nav-link" to="/cart">Cart</Link></li>
               <li className="nav-item">
                 <Link to="/" className="nav-link text-danger d-flex align-items-center">
-                  <img src="./src/assets/images/download.png" alt="Logout" style={{ width: "20px", marginRight: "6px" }} />
+                  <img src="/images/background/download.png" alt="Logout" style={{ width: "20px", marginRight: "6px" }} />
                   Logout
                 </Link>
               </li>
@@ -43,7 +43,7 @@ export default function Mainpage() {
       </nav>
 
       {/* ✅ Hero Banner */}
-      <div className="bg-light text-center py-5" id="home" style={{ backgroundImage: "url('/src/assets/images/background.img')", backgroundSize: "cover" }}>
+      <div className="bg-light text-center py-5" id="home" style={{ backgroundImage: "url('/images/background/background.img')", backgroundSize: "cover" }}>
         <h1 className="text-light fw-bold">Best Collection For Home Decoration</h1>
         <p className="text-muted">Discover amazing furniture & decor</p>
         <Link to="/product/:id" className="btn btn-danger px-4 py-2">Shop Now</Link>
@@ -91,7 +91,7 @@ export default function Mainpage() {
   <div className="row align-items-center">
     <div className="col-md-6 mb-4 mb-md-0">
       <img
-        src="/src/assets/Product Images/ecomlogo.jpg"
+        src="/images/background/ecomlogo.jpg"
         alt="About"
         className="img-fluid rounded shadow-sm"
       />
@@ -99,7 +99,7 @@ export default function Mainpage() {
     <div className="col-md-6">
       <h3 className="fw-bold">About Our E-Shop</h3>
       <p className="text-muted">
-        Welcome to <strong>RafCart</strong>, your one-stop online store for top-quality gadgets, accessories, and home essentials.  
+        Welcome to <strong>ElectroMart</strong>, your one-stop online store for top-quality gadgets, accessories, and home essentials.  
         We combine the latest technology with unbeatable prices to deliver products you love — straight to your doorstep.
       </p>
       <ul className="list-unstyled text-muted">
@@ -120,7 +120,7 @@ export default function Mainpage() {
       
       {/* Brand Info */}
       <div className="col-md-3 mb-4">
-        <h5 className="fw-bold">RafCart</h5>
+        <h5 className="fw-bold">ElectroMart</h5>
         <p>
           Your one-stop online store for gadgets, fashion, and more.  
           Quality products, secure payments, and fast delivery.

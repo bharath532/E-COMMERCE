@@ -2,30 +2,29 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./style.css"; // ✅ Add CSS for image size
 
 const products = [
   { id: "1", name: "IPHONE 13", price: 2000, image: "/images/product/iphoneimg.jfif", rating: 4.4, reviews: 1500 },
-  { id: "2", name: "SAMSUNG", price: 1050, image: "/images/product/samsungS23.jpg", rating: 4.0, reviews: 200 },
-  { id: "3", name: "BOAT", price: 500, image: "/images/product/boat.jpg", rating: 4.8, reviews: 160 },
-  { id: "4", name: "MOXIS", price: 400, image: "/images/product/moxiev20.jpg", rating: 4.6, reviews: 190 },
-  { id: "5", name: "SAN DISK", price: 100, image: "/images/product/sandisk.jpg", rating: 4.6, reviews: 190 },
-  { id: "6", name: "KEYBOARD", price: 200, image: "/images/product/keyboard.jpg", rating: 4.6, reviews: 190 },
-  { id: "7", name: "MOUSE", price: 300, image: "/images/product/mouse.jpg", rating: 4.6, reviews: 190 },
-  { id: "8", name: "AIR BUDS", price: 700, image: "/images/product/airbuds.jpg", rating: 4.6, reviews: 190 },
-  { id: "9", name: "DELL XPS 13", price: 700, image: "/images/product/dellxps13.jpg", rating: 4.6, reviews: 190 },
-  { id: "10", name: "MAC BOOK AIR M2", price: 700, image: "/images/product/macbookairm2.jpg", rating: 4.6, reviews: 190 },
-  { id: "11", name: "MOXIE V20", price: 700, image: "/images/product/moxiev20.jpg", rating: 4.6, reviews: 190 },
-  { id: "12", name: "HP LAPTOP 15", price: 700, image: "/images/product/hplaptop.jfif", rating: 4.6, reviews: 190 },
+  { id: "2", name: "SAMSUNG", price: 1050, image: "/images/product/samsungS23.jpg", rating: 4.0, reviews: 2000 },
+  { id: "3", name: "BOAT", price: 500, image: "/images/product/boat.jpg", rating: 4.8, reviews: 1600 },
+  { id: "4", name: "MOXIS", price: 400, image: "/images/product/moxiev20.jpg", rating: 4.6, reviews: 1900 },
+  { id: "5", name: "SAN DISK", price: 100, image: "/images/product/sandisk.jpg", rating: 4.6, reviews: 690 },
+  { id: "6", name: "KEYBOARD", price: 200, image: "/images/product/keyboard.jpg", rating: 4.6, reviews: 800 },
+  { id: "7", name: "MOUSE", price: 300, image: "/images/product/mouse.jpg", rating: 4.6, reviews: 540 },
+  { id: "8", name: "AIR BUDS", price: 700, image: "/images/product/airbuds.jpg", rating: 4.6, reviews: 970 },
+  { id: "9", name: "DELL XPS 13", price: 700, image: "/images/product/dellxps13.jpg", rating: 4.6, reviews: 2300 },
+  { id: "10", name: "MAC BOOK AIR M2", price: 700, image: "/images/product/macbookairm2.jpg", rating: 4.6, reviews: 4360 },
+  { id: "11", name: "MOXIE V20", price: 700, image: "/images/product/moxiev20.jpg", rating: 4.6, reviews: 330 },
+  { id: "12", name: "HP LAPTOP 15", price: 700, image: "/images/product/hplaptop.jfif", rating: 4.6, reviews: 4400 },
 ];
-
 
 export default function Products() {
   const [cart, setCart] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [showCart, setShowCart] = useState(false); // ✅ cart modal toggle
+  const [showCart, setShowCart] = useState(false);
 
-  // Add to Cart
   const handleAddToCart = async (product) => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
@@ -57,46 +56,41 @@ export default function Products() {
     }
   };
 
-const handleDecrease = async (product) => {
-  const userId = localStorage.getItem("userId");
-  if (!userId) {
-    alert("Please login first!");
-    return;
-  }
+  const handleDecrease = async (product) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Please login first!");
+      return;
+    }
 
-  const existingProduct = cart.find((item) => item.id === product.id);
-  if (!existingProduct) return;
+    const existingProduct = cart.find((item) => item.id === product.id);
+    if (!existingProduct) return;
 
-  const newQuantity = existingProduct.quantity - 1;
+    const newQuantity = existingProduct.quantity - 1;
 
-  // ✅ Update local state instantly
-  if (newQuantity > 0) {
-    setCart(
-      cart.map((item) =>
-        item.id === product.id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  } else {
-    setCart(cart.filter((item) => item.id !== product.id));
-  }
+    if (newQuantity > 0) {
+      setCart(
+        cart.map((item) =>
+          item.id === product.id ? { ...item, quantity: newQuantity } : item
+        )
+      );
+    } else {
+      setCart(cart.filter((item) => item.id !== product.id));
+    }
 
-  // ✅ Sync with backend
-  try {
-    await axios.put(`http://localhost:5000/api/cart/${product.id}`, {
-      userId,
-      quantity: newQuantity,
-    });
-  } catch (err) {
-    console.error("Error decreasing quantity:", err);
-  }
-};
+    try {
+      await axios.put(`http://localhost:5000/api/cart/${product.id}`, {
+        userId,
+        quantity: newQuantity,
+      });
+    } catch (err) {
+      console.error("Error decreasing quantity:", err);
+    }
+  };
 
-
-  // Filter products
- const filteredProducts = products.filter(product =>
-  product.name.toLowerCase().includes(searchTerm.toLowerCase())
-);
-
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
@@ -112,7 +106,6 @@ const handleDecrease = async (product) => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {/* Cart button opens modal */}
           <button
             className="btn btn-outline-primary"
             onClick={() => setShowCart(true)}
@@ -130,12 +123,11 @@ const handleDecrease = async (product) => {
             const inCart = cart.find((item) => item.id === product.id);
             return (
               <div key={product.id} className="col-md-3 mb-4">
-                <div className="card h-100 shadow-sm">
+                <div className="card h-100 shadow-sm d-flex flex-column">
                   <img
                     src={product.image}
-                    className="card-img-top"
+                    className="card-img-top product-img"
                     alt={product.name}
-                    style={{ cursor: "pointer" }}
                     onClick={() => setSelectedProduct(product)}
                   />
                   <div className="card-body d-flex flex-column">
@@ -144,15 +136,17 @@ const handleDecrease = async (product) => {
                     <p className="text-warning mb-1">
                       {"⭐".repeat(Math.floor(product.rating))} ({product.reviews})
                     </p>
-                    {inCart ? (
-                      <div className="d-flex align-items-center mt-auto">
-                        <button className="btn btn-outline-secondary" onClick={() => handleDecrease(product)}>-</button>
-                        <span className="mx-2">{inCart.quantity}</span>
-                        <button className="btn btn-outline-secondary" onClick={() => handleAddToCart(product)}>+</button>
-                      </div>
-                    ) : (
-                      <button className="btn btn-danger mt-auto" onClick={() => handleAddToCart(product)}>Add to cart</button>
-                    )}
+                    <div className="mt-auto">
+                      {inCart ? (
+                        <div className="d-flex align-items-center">
+                          <button className="btn btn-outline-secondary" onClick={() => handleDecrease(product)}>-</button>
+                          <span className="mx-2">{inCart.quantity}</span>
+                          <button className="btn btn-outline-secondary" onClick={() => handleAddToCart(product)}>+</button>
+                        </div>
+                      ) : (
+                        <button className="btn btn-danger" onClick={() => handleAddToCart(product)}>Add to cart</button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

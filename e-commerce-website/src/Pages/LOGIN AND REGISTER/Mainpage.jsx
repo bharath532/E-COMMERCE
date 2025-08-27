@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import Carousel from "react-bootstrap/Carousel";  
+import './mainpage.css';
 
 export default function Mainpage() {
   const products = [
@@ -17,37 +19,59 @@ export default function Mainpage() {
 
   return (
     <div>
-      {/* ✅ Navbar */}
-      <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
-        <div className="container">
-          <Link className="navbar-brand fw-bold" to="/">E-Shop</Link>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul className="navbar-nav">
-              <li className="nav-item"><a className='nav-link' href='#home'>Home</a></li>
-              <li className="nav-item"><a className='nav-link' href='#about'>About</a></li>
-              <li className="nav-item"><Link className="nav-link" to="/product/:id">Products</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/">Account</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/cart">Cart</Link></li>
-              <li className="nav-item">
-                <Link to="/" className="nav-link text-danger d-flex align-items-center">
-                  <img src="/images/background/download.png" alt="Logout" style={{ width: "20px", marginRight: "6px" }} />
-                  Logout
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
+  <div className="container">
+    {/* ✅ Logo with brand name */}
+    <Link className="navbar-brand fw-bold d-flex align-items-center" to="/">
+      <img 
+        src="/Websitelogo.jpg" 
+        alt="Logo" 
+        style={{ height: "40px", marginRight: "8px" }} 
+      />
+      
+    </Link>
 
-      {/* ✅ Hero Banner */}
-      <div className="bg-light text-center py-5" id="home" style={{ backgroundImage: "url('/images/background/background.img')", backgroundSize: "cover" }}>
-        <h1 className="text-light fw-bold">Best Collection For Home Decoration</h1>
-        <p className="text-muted">Discover amazing furniture & decor</p>
-        <Link to="/product/:id" className="btn btn-danger px-4 py-2">Shop Now</Link>
+    {/* ✅ Mobile toggle button */}
+    <button 
+      className="navbar-toggler" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav"
+    >
+      <span className="navbar-toggler-icon"></span>
+    </button>
+
+    {/* ✅ Links & buttons */}
+    <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+        <li className="nav-item"><a className='nav-link' href='#home'>Home</a></li>
+        <li className="nav-item"><a className='nav-link' href='#about'>About</a></li>
+        <li className="nav-item"><Link className="nav-link" to="/product/:id">Products</Link></li>
+      </ul>
+
+      <div className="d-flex align-items-center">
+        <Link to="/cart" className="btn btn-outline-primary me-2">Cart</Link>
+        <Link to="/" className="btn btn-danger">Logout</Link>
       </div>
+    </div>
+  </div>
+</nav>
+
+
+<Carousel className="hero-carousel" interval={3000} fade>
+  <Carousel.Item>
+    <img className="d-block w-100" src="/images/product/iphoneimg.jfif" alt="Banner 1" />
+  </Carousel.Item>
+  <Carousel.Item>
+    <img className="d-block w-100" src="/images/product/boat.jpg" alt="Banner 2" />
+  </Carousel.Item>
+  <Carousel.Item>
+    <img className="d-block w-100" src="/images/product/hplaptop.jfif" alt="Banner 3" />
+  </Carousel.Item>
+</Carousel>
+
+
+
 
       {/* ✅ Feature Boxes */}
       <div className="container text-center py-5">
@@ -91,7 +115,7 @@ export default function Mainpage() {
   <div className="row align-items-center">
     <div className="col-md-6 mb-4 mb-md-0">
       <img
-        src="/images/background/ecomlogo.jpg"
+        src="/images/background/Websitelogo.jpg"
         alt="About"
         className="img-fluid rounded shadow-sm"
       />

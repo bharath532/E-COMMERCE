@@ -9,12 +9,12 @@ export default function Mainpage() {
   const products = [
     { id: "1", name: "IPHONE 13", price: 2000, image: "/images/product/iphoneimg.jfif", rating: 4.4, reviews: 1500 },
     { id: "2", name: "SAMSUNG", price: 1050, image: "/images/product/samsungS23.jpg", rating: 4.0, reviews: 200 },
+    { id: "7", name: "HP LAPTOP", price: 300, image: "/images/product/hplaptop.jfif", rating: 4.6, reviews: 190 },
+    { id: "8", name: "DELL LAPTOP", price: 700, image: "/images/product/dellxps13.jpg", rating: 4.6, reviews: 190 },
+    { id: "6", name: "GALAXY IPAD", price: 200, image: "/images/product/galaxytab.jfif", rating: 4.6, reviews: 190 },
+    { id: "5", name: "APPLE IPAD", price: 100, image: "/images/product/appletab.jfif", rating: 4.6, reviews: 190 },
     { id: "3", name: "BOAT", price: 500, image: "/images/product/boat.jpg", rating: 4.8, reviews: 160 },
     { id: "4", name: "MOXIS", price: 400, image: "/images/product/moxiev20.jpg", rating: 4.6, reviews: 190 },
-    { id: "5", name: "SAN DISK", price: 100, image: "/images/product/sandisk.jpg", rating: 4.6, reviews: 190 },
-    { id: "6", name: "KEYBOARD", price: 200, image: "/images/product/keyboard.jpg", rating: 4.6, reviews: 190 },
-    { id: "7", name: "MOUSE", price: 300, image: "/images/product/mouse.jpg", rating: 4.6, reviews: 190 },
-    { id: "8", name: "AIR BUDS", price: 700, image: "/images/product/airbuds.jpg", rating: 4.6, reviews: 190 },
   ];
 
   return (

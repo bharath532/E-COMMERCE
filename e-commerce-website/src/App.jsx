@@ -6,6 +6,8 @@ import { Route, Routes } from 'react-router-dom'
 import Mainpage from "./Pages/LOGIN AND REGISTER/Mainpage";
 import Products from "./Pages/PRODUCT PAGES/Products";
 import Cart from "./Pages/ADD TO CART/Cart";
+import API from "./api";
+
 
 function App() {
   return (

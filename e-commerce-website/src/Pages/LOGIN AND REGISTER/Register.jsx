@@ -3,6 +3,7 @@ import axios from 'axios';
 import './login.css';
 import { Link } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import API from "../../api";
 export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -11,25 +12,22 @@ export default function Register() {
   const [message, setMessage] = useState('');
 
   const handleRegister = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  try {
+    const res = await API.post('/register', {
+      username: name,
+      email,
+      password
+    });
 
-   try {
-      const res = await axios.post("http://localhost:5000/register", {
-  username: name,
-  email,
-  password
-});
+    setMessage(res.data.message);
+  } catch (err) {
+    console.error("❌ Registration error:", err);
+    setMessage(err.response?.data?.message || 'Registration failed.');
+  }
+};
 
-      setMessage(res.data.message); // Show success message
-    } catch (err) {
-      console.error("❌ Registration error:", err);
-      if (err.response && err.response.data && err.response.data.message) {
-        setMessage(err.response.data.message);
-      } else {
-        setMessage('Registration failed.');
-      }
-    }
-  };
+
 
   return (
     <>

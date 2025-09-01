@@ -4,6 +4,9 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css"; 
 
+// ✅ Fix: Use Vite environment variable
+const API_URL = import.meta.env.VITE_API_URL; 
+
 const products = [
   { id: "1", name: "IPHONE 13", price: 2000, image: "/images/product/iphoneimg.jfif", rating: 4.4, reviews: 1500 },
   { id: "2", name: "SAMSUNG", price: 1050, image: "/images/product/samsungS23.jpg", rating: 4.0, reviews: 2000 },
@@ -29,19 +32,16 @@ export default function Products() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showCart, setShowCart] = useState(false);
 
-  // ✅ Load cart from localStorage on page load
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
-    }
+    if (savedCart) setCart(JSON.parse(savedCart));
   }, []);
 
-  // ✅ Save cart to localStorage whenever cart changes
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  // ✅ Add to Cart
   const handleAddToCart = async (product) => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
@@ -61,7 +61,7 @@ export default function Products() {
     setCart(updatedCart);
 
     try {
-      await axios.post("http://localhost:5000/api/cart", {
+      await axios.post(`${API_URL}/api/cart`, {
         userId,
         productId: product.id,
         name: product.name,
@@ -73,6 +73,7 @@ export default function Products() {
     }
   };
 
+  // ✅ Decrease Quantity
   const handleDecrease = async (product) => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
@@ -96,7 +97,7 @@ export default function Products() {
     }
 
     try {
-      await axios.put(`http://localhost:5000/api/cart/${product.id}`, {
+      await axios.put(`${API_URL}/api/cart/${product.id}`, {
         userId,
         quantity: newQuantity,
       });
@@ -115,13 +116,12 @@ export default function Products() {
       <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div className="container">
           <Link className="navbar-brand fw-bold d-flex align-items-center" to="/">
-                <img 
-                  src="/Websitelogo.jpg" 
-                  alt="Logo" 
-                  style={{ height: "40px", marginRight: "2px" }} 
-                />
-                
-              </Link>
+            <img 
+              src="/Websitelogo.jpg" 
+              alt="Logo" 
+              style={{ height: "40px", marginRight: "2px" }} 
+            />
+          </Link>
           <Link className="btn btn-outline-primary me-3" to="/main">Go Home</Link>
           <input
             type="text"

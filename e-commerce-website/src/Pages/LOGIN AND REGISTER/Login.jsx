@@ -3,6 +3,9 @@ import axios from 'axios';
 import './login.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import API from "../../api";
+
+
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -13,19 +16,10 @@ export default function Login() {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-
   try {
-    const res = await axios.post("http://localhost:5000/login", {
-      email,
-      password
-    }, {
-      withCredentials: true
-    });
+    const res = await API.post('/login', { email, password });
 
-    // ✅ STEP 3: Save userId for later use
-    // (auth.js returns { message, user }, so user._id is available)
     localStorage.setItem("userId", res.data.user._id);
-
     setMessage("✅ Login success");
     setEmail('');
     setPassword('');
@@ -35,6 +29,7 @@ const handleSubmit = async (e) => {
     setMessage("❌ Login failed: " + (error.response?.data?.message || 'Server error'));
   }
 };
+
 
 
 

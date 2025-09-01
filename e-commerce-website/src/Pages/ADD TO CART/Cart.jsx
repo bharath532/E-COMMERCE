@@ -4,18 +4,18 @@ import axios from "axios";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
-  const userId = localStorage.getItem("userId"); // Assuming user ID is saved after login
+  const userId = localStorage.getItem("userId"); // Get user ID after login
 
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/cart/${userId}`);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/cart/${userId}`);
         setCartItems(res.data);
       } catch (err) {
         console.error("❌ Error fetching cart:", err);
       }
     };
-    fetchCart();
+    if (userId) fetchCart();
   }, [userId]);
 
   return (

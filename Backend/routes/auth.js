@@ -1,11 +1,10 @@
-// routes/auth.js
 import express from "express";
 import bcrypt from "bcrypt";
-import User from "../models/user.js";
+import User from "../models/User.js";
 
 const router = express.Router();
 
-// ✅ Register
+// Register
 router.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -21,12 +20,12 @@ router.post("/register", async (req, res) => {
 
     return res.json({ message: "Registration successful" });
   } catch (err) {
-    console.error("❌ Register error:", err);
+    console.error("Register Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-// ✅ Login
+// Login
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -39,7 +38,7 @@ router.post("/login", async (req, res) => {
 
     return res.json({ message: "Login successful", user });
   } catch (err) {
-    console.error("❌ Login error:", err);
+    console.error("Login Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 });

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://e-commerce-2dgi.onrender.com",
+  baseURL: "https://e-commerce-2dgi.onrender.com/api",
   withCredentials: true, // only if your backend uses cookies/auth
 });
 

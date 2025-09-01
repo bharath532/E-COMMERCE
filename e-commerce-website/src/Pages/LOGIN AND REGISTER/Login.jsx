@@ -17,7 +17,8 @@ export default function Login() {
 const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const res = await API.post('/login', { email, password });
+    const res = await API.post('/auth/login', { email, password });
+
 
     localStorage.setItem("userId", res.data.user._id);
     setMessage("✅ Login success");

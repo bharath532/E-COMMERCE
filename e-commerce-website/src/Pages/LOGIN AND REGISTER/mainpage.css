@@ -66,6 +66,17 @@
   opacity: 1;
 }
 
+.product-img {
+  width: 150px;      /* Controls the image size */
+  height: 150px;     /* Fixed height for consistency */
+  object-fit: cover; /* Keeps aspect ratio */
+  margin-top: 10px;
+}
+.card-title, .card p {
+  margin: 5px 0;
+}
+
+
 
 /*  */
 .hero-carousel {

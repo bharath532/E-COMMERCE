@@ -68,6 +68,9 @@ export default function Mainpage() {
   <Carousel.Item>
     <img className="d-block w-100" src="/images/product/hplaptop.jfif" alt="Banner 3" />
   </Carousel.Item>
+  <Carousel.Item>
+    <img className="d-block w-100" src="/images/product/appletab.jfif" alt="Banner 4" />
+  </Carousel.Item>
 </Carousel>
 
 
@@ -87,28 +90,33 @@ export default function Mainpage() {
         </div>
       </div>
 
-      {/* ✅ Product Section */}
-      <div className="container py-5" id="collection">
-        <h3 className="mb-4 text-center">Top New Arrival</h3>
-        <div className="row">
-          {products.map((product) => (
-            <div key={product.id} className="col-md-3 mb-4">
-              <div className="card h-100 shadow-sm">
-                <Link to={`/product/${product.id}`}>
-                  <img src={product.image} className="card-img-top" alt={product.name} />
-                </Link>
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title">{product.name}</h5>
-                  <p className="text-danger fw-bold">${product.price.toFixed(2)}</p>
-                  <p className="text-warning mb-1">
-                    {"⭐".repeat(Math.floor(product.rating))} ({product.reviews})
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
+     <div className="container py-5" id="collection">
+  <h3 className="mb-4 text-center">Top New Arrival</h3>
+  <div className="row">
+    {products.map((product) => (
+      <div key={product.id} className="col-md-3 mb-4">
+        <div className="card h-100 shadow-sm text-center">
+          <Link to={`/product/${product.id}`}>
+            <img 
+              src={product.image} 
+              className="card-img-top mx-auto d-block product-img" 
+              alt={product.name} 
+            />
+          </Link>
+          <div className="card-body d-flex flex-column align-items-center">
+            <h5 className="card-title mt-2">{product.name}</h5>
+            <p className="text-danger fw-bold">${product.price.toFixed(2)}</p>
+            <p className="text-warning mb-1">
+              {"⭐".repeat(Math.floor(product.rating))} ({product.reviews})
+            </p>
+          </div>
         </div>
       </div>
+    ))}  {/* ✅ closes .map() correctly */}
+  </div>
+</div>
+
+
 
      {/* ✅ About Us Section */}
 <div className="container py-5" id="about">

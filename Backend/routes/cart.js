@@ -1,7 +1,8 @@
 // routes/cart.js
-const express = require("express");
+import express from "express";
+import Cart from "../models/Cart.js";
+
 const router = express.Router();
-const Cart = require("../models/Cart");
 
 // ✅ Add or update item in cart (POST)
 router.post("/", async (req, res) => {
@@ -74,7 +75,7 @@ router.put("/:productId", async (req, res) => {
       await Cart.deleteOne({ userId, productId });
       return res.status(200).json({ success: true, message: "Item removed from cart" });
     }
-    
+
     // ✅ Update quantity
     existingItem.quantity = quantity;
     await existingItem.save();
@@ -103,4 +104,4 @@ router.delete("/:productId", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

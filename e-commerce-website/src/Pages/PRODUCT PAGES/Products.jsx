@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./style.css"; // ✅ Add CSS for image size
+import "./style.css"; 
 
 const products = [
   { id: "1", name: "IPHONE 13", price: 2000, image: "/images/product/iphoneimg.jfif", rating: 4.4, reviews: 1500 },

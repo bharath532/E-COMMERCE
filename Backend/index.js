@@ -15,16 +15,11 @@ dotenv.config({ path: path.join(__dirname, "Config", "config.env") });
 const app = express();
 
 // Middlewares
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",       // Local frontend
-      "https://e-commerce-chi-three-57.vercel.app", // Vercel frontend
-      "https://e-commerce-2dgi.onrender.com" // Add Render frontend when deployed
-    ],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: "https://e-commerce-1-lmzl.onrender.com", // frontend URL
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
 app.use(express.json());
 app.use(cookieParser());

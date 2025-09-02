@@ -32,8 +32,8 @@ app.use(cookieParser());
 import authRoutes from "./routes/auth.js";
 import cartRoutes from "./routes/cart.js";
 
-// app.use("/api/auth", authRoutes);
-// app.use("/api/cart", cartRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/cart", cartRoutes);
 
 mongoose
   .connect(process.env.MONGO_URL)

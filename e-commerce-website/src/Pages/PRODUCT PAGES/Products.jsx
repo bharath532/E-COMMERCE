@@ -122,7 +122,7 @@ export default function Products() {
               style={{ height: "40px", marginRight: "2px" }} 
             />
           </Link>
-          <Link className="btn btn-outline-primary me-3" to="/main">Go Home</Link>
+          <Link className="btn btn-outline-primary me-3" to="/">Go Home</Link>
           <input
             type="text"
             className="form-control mx-3 w-50"

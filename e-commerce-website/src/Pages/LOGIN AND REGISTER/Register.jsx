@@ -36,7 +36,7 @@ export default function Register() {
     <div className="login-container">
       <h2 className="text-center mb-3">Create Account</h2>
       <p className="text-center text-muted">
-        Already have an account? <Link to="/login" className="text-danger">Login here</Link>
+        Already have an account? <Link to="/" className="text-danger">Login here</Link>
       </p>
 
       {message && (

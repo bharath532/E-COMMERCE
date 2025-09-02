@@ -51,7 +51,7 @@ export default function Mainpage() {
 
       <div className="d-flex align-items-center">
         <Link to="/cart" className="btn btn-outline-primary me-2">Cart</Link>
-        <Link to="/" className="btn btn-danger">Logout</Link>
+        <Link to="/login" className="btn btn-danger">Login</Link>
       </div>
     </div>
   </div>

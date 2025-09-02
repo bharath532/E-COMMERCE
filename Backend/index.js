@@ -18,9 +18,9 @@ const app = express();
 
 // Allowed frontend origins
 app.use(cors({
-  origin: function(origin, callback){
+  origin: function (origin, callback) {
     // allow requests with no origin like Postman
-    if(!origin) return callback(null, true);
+    if (!origin) return callback(null, true);
 
     const allowedOrigins = [
       "http://localhost:5173", // local dev
@@ -34,8 +34,8 @@ app.use(cors({
     }
   },
   credentials: true,
-  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
-  allowedHeaders: ["Content-Type","Authorization"]
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 // Preflight handler
@@ -44,7 +44,7 @@ app.options("*", cors());
 app.use(express.json());
 app.use(cookieParser());
 
-// Routes
+// API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 
@@ -54,10 +54,21 @@ mongoose
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => console.error("❌ MongoDB Connection Error:", err));
 
-// Test route
-app.get("/", (req, res) => {
+// ---------- React Build Handling ----------
+// Serve frontend static files
+const frontendPath = path.join(__dirname, "dist"); // or 'build' if using CRA
+app.use(express.static(frontendPath));
+
+// Test API route
+app.get("/api", (req, res) => {
   res.send("API is working!");
 });
+
+// Catch-all: for React Router (Refresh Fix)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
+});
+// -------------------------------------------
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

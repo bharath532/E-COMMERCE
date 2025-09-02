@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import './login.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import API from "../../api";
-
-
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -14,25 +11,25 @@ export default function Login() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await API.post('/auth/login', { email, password });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await API.post('/auth/login', { email, password });
 
-
-    localStorage.setItem("userId", res.data.user._id);
-    setMessage("✅ Login success");
-    setEmail('');
-    setPassword('');
-    navigate('/main');
-  } catch (error) {
-    console.error("❌ Submission error:", error);
-    setMessage("❌ Login failed: " + (error.response?.data?.message || 'Server error'));
-  }
-};
-
-
-
+      if (res.data.success) {
+        localStorage.setItem("userId", res.data.user._id);
+        setMessage("✅ Login successful");
+        setEmail('');
+        setPassword('');
+        navigate('/main');
+      } else {
+        setMessage("❌ Login failed: " + res.data.message);
+      }
+    } catch (error) {
+      console.error("❌ Submission error:", error.response || error);
+      setMessage("❌ Login failed: " + (error.response?.data?.message || 'Server error'));
+    }
+  };
 
   return (
     <div className="login-container">

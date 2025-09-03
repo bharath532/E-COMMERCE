@@ -8,6 +8,7 @@ import { fileURLToPath } from "url";
 
 import authRoutes from "./routes/auth.js";
 import cartRoutes from "./routes/cart.js";
+import paymentRoutes from "./routes/payment.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,6 +48,7 @@ app.use(cookieParser());
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/payment", paymentRoutes);
 
 // MongoDB Connection
 mongoose

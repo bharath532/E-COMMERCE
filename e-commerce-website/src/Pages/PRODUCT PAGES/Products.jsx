@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./style.css"; 
+import "./style.css";
 
-// ✅ Fix: Use Vite environment variable
-const API_URL = import.meta.env.VITE_API_URL; 
+const API_URL = import.meta.env.VITE_API_URL;
 
 const products = [
   { id: "1", name: "IPHONE 13", price: 2000, image: "/images/product/iphoneimg.jfif", rating: 4.4, reviews: 1500 },
@@ -17,7 +16,7 @@ const products = [
   { id: "7", name: "ASUS", price: 5500, image: "/images/product/asus.jfif", rating: 4.6, reviews: 4300 },
   { id: "8", name: "DELL XPS 13", price: 6400, image: "/images/product/dellxps13.jpg", rating: 4.6, reviews: 2300 },
   { id: "9", name: "APPLE IPAD", price: 3300, image: "/images/product/appletab.jfif", rating: 4.6, reviews: 8300 },
-  { id: "10", name: "GALAXY IPAD", price: 3000, image: "/images/product/galaxytab.jfif", rating: 4.6, reviews:7300 },
+  { id: "10", name: "GALAXY IPAD", price: 3000, image: "/images/product/galaxytab.jfif", rating: 4.6, reviews: 7300 },
   { id: "11", name: "ASUS IPAD", price: 2200, image: "/images/product/asustab.jfif", rating: 4.6, reviews: 2300 },
   { id: "12", name: "HAWAI IPAD", price: 2400, image: "/images/product/hawaitab.jfif", rating: 4.6, reviews: 1300 },
   { id: "13", name: "BOAT", price: 500, image: "/images/product/boat.jpg", rating: 4.8, reviews: 1600 },
@@ -31,33 +30,31 @@ export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showCart, setShowCart] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  // Load cart from localStorage
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) setCart(JSON.parse(savedCart));
   }, []);
 
+  // Save cart to localStorage
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  // ✅ Add to Cart
+  // Add to cart
   const handleAddToCart = async (product) => {
     const userId = localStorage.getItem("userId");
-    if (!userId) {
-      alert("Please login first!");
-      return;
-    }
+    if (!userId) return alert("Please login first!");
 
     const existingProduct = cart.find((item) => item.id === product.id);
-    let updatedCart;
-    if (existingProduct) {
-      updatedCart = cart.map((item) =>
-        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-      );
-    } else {
-      updatedCart = [...cart, { ...product, quantity: 1 }];
-    }
+    const updatedCart = existingProduct
+      ? cart.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        )
+      : [...cart, { ...product, quantity: 1 }];
+
     setCart(updatedCart);
 
     try {
@@ -73,13 +70,10 @@ export default function Products() {
     }
   };
 
-  // ✅ Decrease Quantity
+  // Decrease quantity
   const handleDecrease = async (product) => {
     const userId = localStorage.getItem("userId");
-    if (!userId) {
-      alert("Please login first!");
-      return;
-    }
+    if (!userId) return alert("Please login first!");
 
     const existingProduct = cart.find((item) => item.id === product.id);
     if (!existingProduct) return;
@@ -87,11 +81,7 @@ export default function Products() {
     const newQuantity = existingProduct.quantity - 1;
 
     if (newQuantity > 0) {
-      setCart(
-        cart.map((item) =>
-          item.id === product.id ? { ...item, quantity: newQuantity } : item
-        )
-      );
+      setCart(cart.map((item) => (item.id === product.id ? { ...item, quantity: newQuantity } : item)));
     } else {
       setCart(cart.filter((item) => item.id !== product.id));
     }
@@ -106,7 +96,48 @@ export default function Products() {
     }
   };
 
-  const filteredProducts = products.filter(product =>
+  // Stripe: Single product Buy Now
+  const handleBuyNowSingle = async (product) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) return alert("Please login first!");
+
+    try {
+      setIsLoading(true);
+      const response = await axios.post(`${API_URL}/api/payment/create-payment-session`, {
+        userId,
+        product: { ...product, quantity: 1 },
+      });
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Payment failed. Try again!");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Stripe: Pay all cart
+  const handleBuyNow = async () => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) return alert("Please login first!");
+    if (cart.length === 0) return alert("Cart is empty!");
+
+    try {
+      setIsLoading(true);
+      const response = await axios.post(`${API_URL}/api/payment/create-payment-session`, {
+        userId,
+        products: cart,
+      });
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Payment failed. Try again!");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -116,11 +147,7 @@ export default function Products() {
       <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div className="container">
           <Link className="navbar-brand fw-bold d-flex align-items-center" to="/">
-            <img 
-              src="/Websitelogo.jpg" 
-              alt="Logo" 
-              style={{ height: "40px", marginRight: "2px" }} 
-            />
+            <img src="/Websitelogo.jpg" alt="Logo" style={{ height: "40px", marginRight: "2px" }} />
           </Link>
           <Link className="btn btn-outline-primary me-3" to="/main">Go Home</Link>
           <input
@@ -130,10 +157,7 @@ export default function Products() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button
-            className="btn btn-outline-primary"
-            onClick={() => setShowCart(true)}
-          >
+          <button className="btn btn-outline-primary" onClick={() => setShowCart(true)}>
             Cart ({cart.reduce((total, item) => total + item.quantity, 0)})
           </button>
         </div>
@@ -157,10 +181,8 @@ export default function Products() {
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">{product.name}</h5>
                     <p className="text-danger fw-bold">${product.price.toFixed(2)}</p>
-                    <p className="text-warning mb-1">
-                      {"⭐".repeat(Math.floor(product.rating))} ({product.reviews})
-                    </p>
-                    <div className="mt-auto">
+                    <p className="text-warning mb-1">{"⭐".repeat(Math.floor(product.rating))} ({product.reviews})</p>
+                    <div className="mt-auto d-flex justify-content-between">
                       {inCart ? (
                         <div className="d-flex align-items-center">
                           <button className="btn btn-outline-secondary" onClick={() => handleDecrease(product)}>-</button>
@@ -168,8 +190,11 @@ export default function Products() {
                           <button className="btn btn-outline-secondary" onClick={() => handleAddToCart(product)}>+</button>
                         </div>
                       ) : (
-                        <button className="btn btn-danger" onClick={() => handleAddToCart(product)}>Add to cart</button>
+                        <button className="btn btn-danger" onClick={() => handleAddToCart(product)}>Add to Cart</button>
                       )}
+                      <button className="btn btn-success" onClick={() => handleBuyNowSingle(product)} disabled={isLoading}>
+                        {isLoading ? "Processing..." : "Buy Now"}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -193,7 +218,12 @@ export default function Products() {
                 <p className="fw-bold text-danger">${selectedProduct.price.toFixed(2)}</p>
                 <p>{selectedProduct.description}</p>
                 <p className="text-warning">{"⭐".repeat(Math.floor(selectedProduct.rating))} ({selectedProduct.reviews})</p>
-                <button className="btn btn-danger" onClick={() => handleAddToCart(selectedProduct)}>Add to Cart</button>
+                <div className="d-flex justify-content-center gap-2">
+                  <button className="btn btn-danger" onClick={() => handleAddToCart(selectedProduct)}>Add to Cart</button>
+                  <button className="btn btn-success" onClick={() => handleBuyNowSingle(selectedProduct)} disabled={isLoading}>
+                    {isLoading ? "Processing..." : "Buy Now"}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -213,22 +243,29 @@ export default function Products() {
                 {cart.length === 0 ? (
                   <p>Your cart is empty.</p>
                 ) : (
-                  cart.map((item) => (
-                    <div key={item.id} className="d-flex justify-content-between align-items-center mb-3">
-                      <div className="d-flex align-items-center">
-                        <img src={item.image} alt={item.name} width="60" className="me-3"/>
-                        <div>
-                          <h6>{item.name}</h6>
-                          <p className="mb-0 text-danger">${item.price.toFixed(2)}</p>
+                  <>
+                    {cart.map((item) => (
+                      <div key={item.id} className="d-flex justify-content-between align-items-center mb-3">
+                        <div className="d-flex align-items-center">
+                          <img src={item.image} alt={item.name} width="60" className="me-3"/>
+                          <div>
+                            <h6>{item.name}</h6>
+                            <p className="mb-0 text-danger">${item.price.toFixed(2)}</p>
+                          </div>
+                        </div>
+                        <div className="d-flex align-items-center">
+                          <button className="btn btn-outline-secondary btn-sm" onClick={() => handleDecrease(item)}>-</button>
+                          <span className="mx-2">{item.quantity}</span>
+                          <button className="btn btn-outline-secondary btn-sm" onClick={() => handleAddToCart(item)}>+</button>
                         </div>
                       </div>
-                      <div className="d-flex align-items-center">
-                        <button className="btn btn-outline-secondary btn-sm" onClick={() => handleDecrease(item)}>-</button>
-                        <span className="mx-2">{item.quantity}</span>
-                        <button className="btn btn-outline-secondary btn-sm" onClick={() => handleAddToCart(item)}>+</button>
-                      </div>
+                    ))}
+                    <div className="d-flex justify-content-end mt-3">
+                      <button className="btn btn-success" onClick={handleBuyNow} disabled={isLoading}>
+                        {isLoading ? "Processing..." : "Pay All"}
+                      </button>
                     </div>
-                  ))
+                  </>
                 )}
               </div>
             </div>

@@ -7,22 +7,22 @@ import "./style.css";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const products = [
-  { id: "1", name: "IPHONE 13", price: 2000, image: "/images/product/iphoneimg.jfif", rating: 4.4, reviews: 1500 },
-  { id: "2", name: "SAMSUNG", price: 1050, image: "/images/product/samsungS23.jpg", rating: 4.0, reviews: 2000 },
-  { id: "3", name: "VIVO X-100", price: 1000, image: "/images/product/vivo.jfif", rating: 4.0, reviews: 3000 },
-  { id: "4", name: "REDMI NOTE 12", price: 2030, image: "/images/product/redmi.jfif", rating: 4.0, reviews: 5000 },
-  { id: "5", name: "HP LAPTOP 15", price: 7000, image: "/images/product/hplaptop.jfif", rating: 4.6, reviews: 4400 },
-  { id: "6", name: "MAC BOOK AIR M2", price: 6000, image: "/images/product/macbookairm2.jpg", rating: 4.6, reviews: 4360 },
-  { id: "7", name: "ASUS", price: 5500, image: "/images/product/asus.jfif", rating: 4.6, reviews: 4300 },
-  { id: "8", name: "DELL XPS 13", price: 6400, image: "/images/product/dellxps13.jpg", rating: 4.6, reviews: 2300 },
-  { id: "9", name: "APPLE IPAD", price: 3300, image: "/images/product/appletab.jfif", rating: 4.6, reviews: 8300 },
-  { id: "10", name: "GALAXY IPAD", price: 3000, image: "/images/product/galaxytab.jfif", rating: 4.6, reviews: 7300 },
-  { id: "11", name: "ASUS IPAD", price: 2200, image: "/images/product/asustab.jfif", rating: 4.6, reviews: 2300 },
-  { id: "12", name: "HAWAI IPAD", price: 2400, image: "/images/product/hawaitab.jfif", rating: 4.6, reviews: 1300 },
-  { id: "13", name: "BOAT", price: 500, image: "/images/product/boat.jpg", rating: 4.8, reviews: 1600 },
-  { id: "14", name: "MOXIS", price: 400, image: "/images/product/moxiev20.jpg", rating: 4.6, reviews: 1900 },
-  { id: "15", name: "LEAF HEADPHONE", price: 450, image: "/images/product/leafs.jfif", rating: 4.6, reviews: 690 },
-  { id: "16", name: "SONY HEADPHONE", price: 390, image: "/images/product/sony.jfif", rating: 4.6, reviews: 800 },
+  { id: "1", name: "IPHONE 13", price: 2000, image: "https://e-commerce-1-lmzl.onrender.com/images/product/iphoneimg.jfif", rating: 4.4, reviews: 1500 },
+  { id: "2", name: "SAMSUNG", price: 1050, image: "https://e-commerce-1-lmzl.onrender.com/images/product/samsungS23.jpg", rating: 4.0, reviews: 2000 },
+  { id: "3", name: "VIVO X-100", price: 1000, image: "https://e-commerce-1-lmzl.onrender.com/images/product/vivo.jfif", rating: 4.0, reviews: 3000 },
+  { id: "4", name: "REDMI NOTE 12", price: 2030, image: "https://e-commerce-1-lmzl.onrender.com/images/product/redmi.jfif", rating: 4.0, reviews: 5000 },
+  { id: "5", name: "HP LAPTOP 15", price: 7000, image: "https://e-commerce-1-lmzl.onrender.com/images/product/hplaptop.jfif", rating: 4.6, reviews: 4400 },
+  { id: "6", name: "MAC BOOK AIR M2", price: 6000, image: "https://e-commerce-1-lmzl.onrender.com/images/product/macbookairm2.jpg", rating: 4.6, reviews: 4360 },
+  { id: "7", name: "ASUS", price: 5500, image: "https://e-commerce-1-lmzl.onrender.com/images/product/asus.jfif", rating: 4.6, reviews: 4300 },
+  { id: "8", name: "DELL XPS 13", price: 6400, image: "https://e-commerce-1-lmzl.onrender.com/images/product/dellxps13.jpg", rating: 4.6, reviews: 2300 },
+  { id: "9", name: "APPLE IPAD", price: 3300, image: "https://e-commerce-1-lmzl.onrender.com/images/product/appletab.jfif", rating: 4.6, reviews: 8300 },
+  { id: "10", name: "GALAXY IPAD", price: 3000, image: "https://e-commerce-1-lmzl.onrender.com/images/product/galaxytab.jfif", rating: 4.6, reviews: 7300 },
+  { id: "11", name: "ASUS IPAD", price: 2200, image: "https://e-commerce-1-lmzl.onrender.com/images/product/asustab.jfif", rating: 4.6, reviews: 2300 },
+  { id: "12", name: "HAWAI IPAD", price: 2400, image: "https://e-commerce-1-lmzl.onrender.com/images/product/hawaitab.jfif", rating: 4.6, reviews: 1300 },
+  { id: "13", name: "BOAT", price: 500, image: "https://e-commerce-1-lmzl.onrender.com/images/product/boat.jpg", rating: 4.8, reviews: 1600 },
+  { id: "14", name: "MOXIS", price: 400, image: "https://e-commerce-1-lmzl.onrender.com/images/product/moxiev20.jpg", rating: 4.6, reviews: 1900 },
+  { id: "15", name: "LEAF HEADPHONE", price: 450, image: "https://e-commerce-1-lmzl.onrender.com/images/product/leafs.jfif", rating: 4.6, reviews: 690 },
+  { id: "16", name: "SONY HEADPHONE", price: 390, image: "https://e-commerce-1-lmzl.onrender.com/images/product/sony.jfif", rating: 4.6, reviews: 800 },
 ];
 
 export default function Products() {
@@ -97,26 +97,26 @@ export default function Products() {
   };
 
   // Stripe: Single product Buy Now
- const handleBuyNowSingle = async (product) => {
-  const userId = localStorage.getItem("userId");
-  if (!userId) {
-    alert("Please login first!");
-    return;
-  }
-  try {
-    setIsLoading(true);
-    const response = await axios.post(`${API_URL}/api/payment/create-payment-session`, {
-      userId,
-      product, // send full product object!
-    });
-    window.location.href = response.data.url;
-  } catch (err) {
-    console.error("Payment error:", err);
-    alert("Payment failed! Try again.");
-  } finally {
-    setIsLoading(false);
-  }
-};
+  const handleBuyNowSingle = async (product) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Please login first!");
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const response = await axios.post(`${API_URL}/api/payment/create-payment-session`, {
+        userId,
+        product, // full product object including deployed image URL
+      });
+      window.location.href = response.data.url;
+    } catch (err) {
+      console.error("Payment error:", err);
+      alert("Payment failed! Try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Stripe: Pay all cart
   const handleBuyNow = async () => {
@@ -149,7 +149,7 @@ export default function Products() {
       <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div className="container">
           <Link className="navbar-brand fw-bold d-flex align-items-center" to="/">
-            <img src="/Websitelogo.jpg" alt="Logo" style={{ height: "40px", marginRight: "2px" }} />
+            <img src="https://e-commerce-1-lmzl.onrender.com/Websitelogo.jpg" alt="Logo" style={{ height: "40px", marginRight: "2px" }} />
           </Link>
           <Link className="btn btn-outline-primary me-3" to="/main">Go Home</Link>
           <input

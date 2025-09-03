@@ -28,41 +28,48 @@ const buildLineItems = (products) => {
 
 router.post("/create-payment-session", async (req, res) => {
   try {
-    console.log("Incoming request body:", req.body);
+    const { userId, product, products } = req.body;
 
-    const { userId, product } = req.body;
-    if (!userId || !product) {
-      console.log("Missing userId or product");
+    if (!userId || (!product && !products)) {
       return res.status(400).json({ error: "userId and product info required" });
     }
 
-    console.log("Stripe Key:", process.env.STRIPE_SECRET_KEY);
+    let line_items = [];
+
+    if (product) {
+      line_items.push({
+        price_data: {
+          currency: "inr",
+          product_data: {
+            name: product.name,
+            images: [product.image],
+          },
+          unit_amount: product.price * 100,
+        },
+        quantity: 1,
+      });
+    } else if (products) {
+      line_items = products.map((p) => ({
+        price_data: {
+          currency: "inr",
+          product_data: { name: p.name, images: [p.image] },
+          unit_amount: p.price * 100,
+        },
+        quantity: p.quantity,
+      }));
+    }
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "inr",
-            product_data: {
-              name: product.name,
-              images: [product.image],
-            },
-            unit_amount: product.price * 100, // must be integer in paise
-          },
-          quantity: 1,
-        },
-      ],
+      line_items,
       mode: "payment",
       success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.CLIENT_URL}/cancel`,
     });
 
-    console.log("Stripe session created:", session.id);
-
     res.json({ url: session.url });
   } catch (error) {
-    console.error("Stripe Payment Error:", error);
+    console.error("Stripe Payment Error:", error); // <--- log full error
     res.status(500).json({ error: "Failed to create payment session" });
   }
 });

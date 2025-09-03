@@ -145,23 +145,63 @@ export default function Products() {
 
   return (
     <>
-      {/* Navbar */}
+       {/* Navbar */}
       <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div className="container">
+          {/* Brand */}
           <Link className="navbar-brand fw-bold d-flex align-items-center" to="/">
-            <img src="https://e-commerce-1-lmzl.onrender.com/Websitelogo.jpg" alt="Logo" style={{ height: "40px", marginRight: "2px" }} />
+            <img
+              src="https://e-commerce-1-lmzl.onrender.com/Websitelogo.jpg"
+              alt="Logo"
+              style={{ height: "40px", marginRight: "2px" }}
+            />
           </Link>
-          <Link className="btn btn-outline-primary me-3" to="/main">Go Home</Link>
-          <input
-            type="text"
-            className="form-control mx-3 w-50"
-            placeholder="Search products..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button className="btn btn-outline-primary" onClick={() => setShowCart(true)}>
-            Cart ({cart.reduce((total, item) => total + item.quantity, 0)})
+
+          {/* Mobile Toggler */}
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
           </button>
+
+          {/* Navbar Items */}
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto align-items-lg-center w-100">
+              {/* Go Home Button */}
+              <li className="nav-item my-2 my-lg-0">
+                <Link className="btn btn-outline-primary me-3 w-100" to="/main">
+                  Go Home
+                </Link>
+              </li>
+
+              {/* Search Box */}
+              <li className="nav-item my-2 my-lg-0 flex-grow-1">
+                <input
+                  type="text"
+                  className="form-control mx-lg-3 w-100"
+                  placeholder="Search products..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </li>
+
+              {/* Cart Button */}
+              <li className="nav-item my-2 my-lg-0 ms-lg-4">
+              <button
+               className="btn btn-outline-primary w-100"
+               onClick={() => setShowCart(true)}
+               >
+              Cart ({cart.reduce((total, item) => total + item.quantity, 0)})
+               </button>
+               </li>
+            </ul>
+          </div>
         </div>
       </nav>
 

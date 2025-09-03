@@ -9,6 +9,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 console.log("Stripe Key Loaded:", !!process.env.STRIPE_SECRET_KEY);
 
+
+
 // Helper: convert products to Stripe line_items
 const buildLineItems = (products) => {
   return products.map((prod) => ({
@@ -24,25 +26,39 @@ const buildLineItems = (products) => {
   }));
 };
 
-// Route: Create Payment Session
 router.post("/create-payment-session", async (req, res) => {
   try {
-    const { userId, product, products } = req.body;
+    console.log("Incoming request body:", req.body);
 
-    if (!userId || (!product && !products)) {
-      return res.status(400).json({ error: "userId and product(s) required" });
+    const { userId, product } = req.body;
+    if (!userId || !product) {
+      console.log("Missing userId or product");
+      return res.status(400).json({ error: "userId and product info required" });
     }
 
-    // Determine items to charge
-    const itemsToCharge = products ? products : [product];
+    console.log("Stripe Key:", process.env.STRIPE_SECRET_KEY);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      line_items: buildLineItems(itemsToCharge),
+      line_items: [
+        {
+          price_data: {
+            currency: "inr",
+            product_data: {
+              name: product.name,
+              images: [product.image],
+            },
+            unit_amount: product.price * 100, // must be integer in paise
+          },
+          quantity: 1,
+        },
+      ],
       mode: "payment",
       success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.CLIENT_URL}/cancel`,
     });
+
+    console.log("Stripe session created:", session.id);
 
     res.json({ url: session.url });
   } catch (error) {
@@ -50,5 +66,6 @@ router.post("/create-payment-session", async (req, res) => {
     res.status(500).json({ error: "Failed to create payment session" });
   }
 });
+
 
 export default router;

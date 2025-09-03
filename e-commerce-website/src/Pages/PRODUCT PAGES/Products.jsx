@@ -97,24 +97,26 @@ export default function Products() {
   };
 
   // Stripe: Single product Buy Now
-  const handleBuyNowSingle = async (product) => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) return alert("Please login first!");
-
-    try {
-      setIsLoading(true);
-      const response = await axios.post(`${API_URL}/api/payment/create-payment-session`, {
-        userId,
-        product: { ...product, quantity: 1 },
-      });
-      window.location.href = response.data.url;
-    } catch (error) {
-      console.error("Payment error:", error);
-      alert("Payment failed. Try again!");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+ const handleBuyNowSingle = async (product) => {
+  const userId = localStorage.getItem("userId");
+  if (!userId) {
+    alert("Please login first!");
+    return;
+  }
+  try {
+    setIsLoading(true);
+    const response = await axios.post(`${API_URL}/api/payment/create-payment-session`, {
+      userId,
+      product, // send full product object!
+    });
+    window.location.href = response.data.url;
+  } catch (err) {
+    console.error("Payment error:", err);
+    alert("Payment failed! Try again.");
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   // Stripe: Pay all cart
   const handleBuyNow = async () => {

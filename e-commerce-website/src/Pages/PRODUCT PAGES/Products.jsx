@@ -26,11 +26,13 @@ const products = [
 ];
 
 export default function Products() {
-  const [cart, setCart] = useState([]);
+ const [cart, setCart] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showCart, setShowCart] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const token = localStorage.getItem("token"); // ✅ JWT token
 
   // Load cart from localStorage
   useEffect(() => {
@@ -43,7 +45,9 @@ export default function Products() {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  // =======================
   // Add to cart
+  // =======================
   const handleAddToCart = async (product) => {
     const userId = localStorage.getItem("userId");
     if (!userId) return alert("Please login first!");
@@ -58,19 +62,24 @@ export default function Products() {
     setCart(updatedCart);
 
     try {
-      await axios.post(`${API_URL}/api/cart`, {
-        userId,
-        productId: product.id,
-        name: product.name,
-        price: product.price,
-        quantity: existingProduct ? existingProduct.quantity + 1 : 1,
-      });
+      await axios.post(
+        `${API_URL}/api/cart`,
+        {
+          productId: product.id,
+          name: product.name,
+          price: product.price,
+          quantity: existingProduct ? existingProduct.quantity + 1 : 1,
+        },
+        { headers: { Authorization: `Bearer ${token}` } } // ✅ send token
+      );
     } catch (err) {
       console.error("Error adding to cart:", err);
     }
   };
 
+  // =======================
   // Decrease quantity
+  // =======================
   const handleDecrease = async (product) => {
     const userId = localStorage.getItem("userId");
     if (!userId) return alert("Please login first!");
@@ -87,28 +96,30 @@ export default function Products() {
     }
 
     try {
-      await axios.put(`${API_URL}/api/cart/${product.id}`, {
-        userId,
-        quantity: newQuantity,
-      });
+      await axios.put(
+        `${API_URL}/api/cart/${product.id}`,
+        { quantity: newQuantity },
+        { headers: { Authorization: `Bearer ${token}` } } // ✅ send token
+      );
     } catch (err) {
       console.error("Error decreasing quantity:", err);
     }
   };
 
-  // Stripe: Single product Buy Now
+  // =======================
+  // Stripe: Buy single product
+  // =======================
   const handleBuyNowSingle = async (product) => {
     const userId = localStorage.getItem("userId");
-    if (!userId) {
-      alert("Please login first!");
-      return;
-    }
+    if (!userId) return alert("Please login first!");
+
     try {
       setIsLoading(true);
-      const response = await axios.post(`${API_URL}/api/payment/create-payment-session`, {
-        userId,
-        product, // full product object including deployed image URL
-      });
+      const response = await axios.post(
+        `${API_URL}/api/payment/create-payment-session`,
+        { userId, product },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       window.location.href = response.data.url;
     } catch (err) {
       console.error("Payment error:", err);
@@ -118,7 +129,9 @@ export default function Products() {
     }
   };
 
+  // =======================
   // Stripe: Pay all cart
+  // =======================
   const handleBuyNow = async () => {
     const userId = localStorage.getItem("userId");
     if (!userId) return alert("Please login first!");
@@ -126,10 +139,11 @@ export default function Products() {
 
     try {
       setIsLoading(true);
-      const response = await axios.post(`${API_URL}/api/payment/create-payment-session`, {
-        userId,
-        products: cart,
-      });
+      const response = await axios.post(
+        `${API_URL}/api/payment/create-payment-session`,
+        { userId, products: cart },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       window.location.href = response.data.url;
     } catch (error) {
       console.error("Payment error:", error);

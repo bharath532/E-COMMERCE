@@ -68,6 +68,7 @@ app.get("/api", (req, res) => {
 
 // Catch-all: for React Router (Refresh Fix)
 app.get("*", (req, res) => {
+  res.setHeader("Content-Encoding", "identity"); // disable auto gzip
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 // -------------------------------------------

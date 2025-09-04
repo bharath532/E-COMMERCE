@@ -16,7 +16,7 @@ export default function Mainpage() {
     { id: "3", name: "BOAT", price: 500, image: "/images/product/boat.jpg", rating: 4.8, reviews: 160 },
     { id: "4", name: "MOXIS", price: 400, image: "/images/product/moxiev20.jpg", rating: 4.6, reviews: 190 },
   ];
-
+  
   return (
     <div>
      <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">

@@ -1,14 +1,14 @@
 import express from "express";
 import Cart from "../models/Cart.js";
+import auth from "../middleware/auth.js"; // ✅ import middleware
 
 const router = express.Router();
 
 // Add or update item in cart
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
-    const { userId, productId, name, price, quantity } = req.body;
-
-    if (!userId) return res.status(400).json({ success: false, message: "User ID required" });
+    const userId = req.user.id; // ✅ from token
+    const { productId, name, price, quantity } = req.body;
 
     let existingItem = await Cart.findOne({ userId, productId });
 
@@ -37,25 +37,22 @@ router.post("/", async (req, res) => {
 });
 
 // Get all cart items for a user
-router.get("/:userId", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user.id; // ✅ from token
     const cartItems = await Cart.find({ userId });
-    res.json(cartItems);
+    res.json({ success: true, cartItems });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
 // Update quantity in cart
-router.put("/:productId", async (req, res) => {
+router.put("/:productId", auth, async (req, res) => {
   try {
-    const { userId, quantity } = req.body;
+    const userId = req.user.id; // ✅ from token
+    const { quantity } = req.body;
     const { productId } = req.params;
-
-    if (!userId || quantity === undefined) {
-      return res.status(400).json({ success: false, message: "User ID & quantity required" });
-    }
 
     let existingItem = await Cart.findOne({ userId, productId });
 
@@ -76,12 +73,10 @@ router.put("/:productId", async (req, res) => {
 });
 
 // Remove product from cart
-router.delete("/:productId", async (req, res) => {
+router.delete("/:productId", auth, async (req, res) => {
   try {
-    const { userId } = req.body;
+    const userId = req.user.id; // ✅ from token
     const { productId } = req.params;
-
-    if (!userId) return res.status(400).json({ success: false, message: "User ID required" });
 
     await Cart.deleteOne({ userId, productId });
     res.status(200).json({ success: true, message: "Item removed from cart" });

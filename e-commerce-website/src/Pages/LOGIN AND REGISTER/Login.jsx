@@ -17,13 +17,25 @@ export default function Login() {
       const res = await API.post('/auth/login', { email, password });
 
       if (res.data.success) {
+        // ✅ Save JWT token
+        localStorage.setItem("token", res.data.token);
+
+        // ✅ Save user info (backend sends "_id", not "id")
         localStorage.setItem("userId", res.data.user._id);
+        localStorage.setItem("userEmail", res.data.user.email);
+        localStorage.setItem("username", res.data.user.username);
+
         setMessage("✅ Login successful");
         setEmail('');
         setPassword('');
+
+        // ✅ Redirect after login
         navigate('/main');
-      } else {
-        setMessage("❌ Login failed: " + res.data.message);
+        console.log("Login Response:", res.data);
+
+      }
+       else {
+        setMessage("❌ Login failed: " + (res.data.message || "Invalid credentials"));
       }
     } catch (error) {
       console.error("❌ Submission error:", error.response || error);
@@ -39,7 +51,10 @@ export default function Login() {
       </p>
 
       {message && (
-        <div className={`alert ${message.includes('success') ? 'alert-success' : 'alert-danger'}`} role="alert">
+        <div
+          className={`alert ${message.includes('✅') ? 'alert-success' : 'alert-danger'}`}
+          role="alert"
+        >
           {message}
         </div>
       )}
@@ -70,7 +85,11 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <span className="input-group-text" onClick={() => setShowPassword(!showPassword)} style={{ cursor: 'pointer' }}>
+            <span
+              className="input-group-text"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{ cursor: 'pointer' }}
+            >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>

@@ -24,5 +24,3 @@ This project is part of my learning journey and portfolio.
 - **Payment:** Stripe  
 
 ---
-
-## 📂 Folder Structure

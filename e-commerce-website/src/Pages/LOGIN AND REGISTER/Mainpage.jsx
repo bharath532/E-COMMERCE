@@ -186,7 +186,7 @@ export default function Mainpage() {
         <h5 className="fw-bold">Contact Us</h5>
         <p className="mb-1">📍 Erode, Tamil Nadu, India</p>
         <p className="mb-1">📞 +91 9789301648</p>
-        <p className="mb-1">✉️ support@rafcart.com</p>
+        <p className="mb-1">✉️ bharath978930@gmail.com</p>
         <div className="mt-3">
           <a href="#" className="text-light me-3"><i className="bi bi-facebook"></i></a>
           <a href="#" className="text-light me-3"><i className="bi bi-instagram"></i></a>
@@ -198,7 +198,7 @@ export default function Mainpage() {
 
     <hr className="border-secondary" />
     <div className="text-center">
-      <p className="mb-0">&copy; {new Date().getFullYear()} RafCart. All Rights Reserved.</p>
+      <p className="mb-0">&copy; {new Date().getFullYear()} Electromart. All Rights Reserved.</p>
     </div>
   </div>
 </footer>

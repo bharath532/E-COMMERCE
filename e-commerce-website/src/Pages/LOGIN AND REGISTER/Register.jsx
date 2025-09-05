@@ -1,209 +1,135 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
-import Carousel from "react-bootstrap/Carousel";  
-import './mainpage.css';
+import React, { useState } from "react";
+import "./register.css"; 
+import { useNavigate, Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import API from "../../api";
 
-export default function Mainpage() {
-  const products = [
-    { id: "1", name: "IPHONE 13", price: 2000, image: "/images/product/iphoneimg.jfif", rating: 4.4, reviews: 1500 },
-    { id: "2", name: "SAMSUNG", price: 1050, image: "/images/product/samsungS23.jpg", rating: 4.0, reviews: 200 },
-    { id: "7", name: "HP LAPTOP", price: 300, image: "/images/product/hplaptop.jfif", rating: 4.6, reviews: 190 },
-    { id: "8", name: "DELL LAPTOP", price: 700, image: "/images/product/dellxps13.jpg", rating: 4.6, reviews: 190 },
-    { id: "6", name: "GALAXY IPAD", price: 200, image: "/images/product/galaxytab.jfif", rating: 4.6, reviews: 190 },
-    { id: "5", name: "APPLE IPAD", price: 100, image: "/images/product/appletab.jfif", rating: 4.6, reviews: 190 },
-    { id: "3", name: "BOAT", price: 500, image: "/images/product/boat.jpg", rating: 4.8, reviews: 160 },
-    { id: "4", name: "MOXIS", price: 400, image: "/images/product/moxiev20.jpg", rating: 4.6, reviews: 190 },
-  ];
+export default function Register() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match ❌");
+      return;
+    }
+
+    try {
+      const res = await API.post("/auth/register", {
+        username,
+        email,
+        password,
+      });
+
+      if (res.data.success) {
+        setSuccess(" ✅Registration successful");
+        setTimeout(() => navigate("/"), 2000); // redirect after 2s
+      } else {
+        setError(res.data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || "Something went wrong");
+    }
+  };
 
   return (
-    <div>
-     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
-  <div className="container">
-    {/* ✅ Logo with brand name */}
-    <Link className="navbar-brand fw-bold d-flex align-items-center" to="/">
-      <img 
-        src="/Websitelogo.jpg" 
-        alt="Logo" 
-        style={{ height: "40px", marginRight: "8px" }} 
-      />
-      
-    </Link>
-
-    {/* ✅ Mobile toggle button */}
-    <button 
-      className="navbar-toggler" 
-      type="button" 
-      data-bs-toggle="collapse" 
-      data-bs-target="#navbarNav"
-    >
-      <span className="navbar-toggler-icon"></span>
-    </button>
-
-    {/* ✅ Links & buttons */}
-    <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
-      <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-        <li className="nav-item"><a className='nav-link' href='#home'>Home</a></li>
-        <li className="nav-item"><a className='nav-link' href='#about'>About</a></li>
-        <li className="nav-item"><Link className="nav-link" to="/product/:id">Products</Link></li>
-      </ul>
-
-      <div className="d-flex align-items-center">
-        <Link to="/cart" className="btn btn-outline-primary me-2">Cart</Link>
-        <Link to="/login" className="btn btn-danger">Login</Link>
-      </div>
-    </div>
-  </div>
-</nav>
-
-
-<Carousel className="hero-carousel" interval={3000} fade>
-  <Carousel.Item>
-    <img className="d-block w-100" src="/images/product/iphoneimg.jfif" alt="Banner 1" />
-  </Carousel.Item>
-  <Carousel.Item>
-    <img className="d-block w-100" src="/images/product/boat.jpg" alt="Banner 2" />
-  </Carousel.Item>
-  <Carousel.Item>
-    <img className="d-block w-100" src="/images/product/hplaptop.jfif" alt="Banner 3" />
-  </Carousel.Item>
-  <Carousel.Item>
-    <img className="d-block w-100" src="/images/product/appletab.jfif" alt="Banner 4" />
-  </Carousel.Item>
-</Carousel>
-
-
-
-
-      {/* ✅ Feature Boxes */}
-      <div className="container text-center py-5">
-        <div className="row">
-          {["Free Shipping", "Money Returns", "24/7 Support"].map((text, i) => (
-            <div key={i} className="col-md-4">
-              <div className="border p-4 rounded shadow-sm">
-                <h5>{text}</h5>
-                <p className="text-muted">Some supporting text here</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-     <div className="container py-5" id="collection">
-  <h3 className="mb-4 text-center">Top New Arrival</h3>
-  <div className="row">
-    {products.map((product) => (
-      <div key={product.id} className="col-md-3 mb-4">
-        <div className="card h-100 shadow-sm text-center">
-          <Link to={`/product/${product.id}`}>
-            <img 
-              src={product.image} 
-              className="card-img-top mx-auto d-block product-img" 
-              alt={product.name} 
-            />
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="card p-4 shadow" style={{ width: "400px" }}>
+        <h2 className="text-center mb-3">Register</h2>
+        <p className="text-center text-muted">
+          Already have an account?{" "}
+          <Link to="/" className="text-danger">
+            Login here
           </Link>
-          <div className="card-body d-flex flex-column align-items-center">
-            <h5 className="card-title mt-2">{product.name}</h5>
-            <p className="text-danger fw-bold">${product.price.toFixed(2)}</p>
-            <p className="text-warning mb-1">
-              {"⭐".repeat(Math.floor(product.rating))} ({product.reviews})
-            </p>
-          </div>
-        </div>
-      </div>
-    ))}  {/* ✅ closes .map() correctly */}
-  </div>
-</div>
-
-
-
-     {/* ✅ About Us Section */}
-<div className="container py-5" id="about">
-  <div className="row align-items-center">
-    <div className="col-md-6 mb-4 mb-md-0">
-      <img
-        src="/images/background/Websitelogo.jpg"
-        alt="About"
-        className="img-fluid rounded shadow-sm"
-      />
-    </div>
-    <div className="col-md-6">
-      <h3 className="fw-bold">About Our E-Shop</h3>
-      <p className="text-muted">
-        Welcome to <strong>ElectroMart</strong>, your one-stop online store for top-quality gadgets, accessories, and home essentials.  
-        We combine the latest technology with unbeatable prices to deliver products you love — straight to your doorstep.
-      </p>
-      <ul className="list-unstyled text-muted">
-        <li>✔️ Wide range of trending products</li>
-        <li>✔️ Fast & secure checkout process</li>
-        <li>✔️ Easy returns & 100% satisfaction guarantee</li>
-        <li>✔️ 24/7 dedicated customer support</li>
-      </ul>
-      
-    </div>
-  </div>
-</div>
-
-
-<footer className="bg-dark text-light pt-5 pb-3 mt-5">
-  <div className="container">
-    <div className="row">
-      
-      {/* Brand Info */}
-      <div className="col-md-3 mb-4">
-        <h5 className="fw-bold">ElectroMart</h5>
-        <p>
-          Your one-stop online store for gadgets, fashion, and more.  
-          Quality products, secure payments, and fast delivery.
         </p>
+
+        {error && <div className="alert alert-danger">{error}</div>}
+        {success && <div className="alert alert-success">{success}</div>}
+
+        <form onSubmit={handleRegister}>
+          <div className="mb-3">
+            <label>Username</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label>Email</label>
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label>Password</label>
+            <div className="input-group">
+              <input
+                type={showPassword ? "text" : "password"}
+                className="form-control"
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <span
+                className="input-group-text"
+                style={{ cursor: "pointer" }}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+          </div>
+
+          <div className="mb-3">
+            <label>Confirm Password</label>
+            <div className="input-group">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                className="form-control"
+                placeholder="Re-enter password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+              <span
+                className="input-group-text"
+                style={{ cursor: "pointer" }}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+          </div>
+
+          <button type="submit" className="btn btn-danger w-100">
+            Register
+          </button>
+        </form>
       </div>
-
-      {/* Quick Links */}
-      <div className="col-md-3 mb-4">
-        <h5 className="fw-bold">Quick Links</h5>
-        <ul className="list-unstyled">
-          <li><a href="#home" className="text-light text-decoration-none">Home</a></li>
-          <li><a href="#about" className="text-light text-decoration-none">About Us</a></li>
-          <li><a href="#products" className="text-light text-decoration-none">Products</a></li>
-          <li><a href="#contact" className="text-light text-decoration-none">Contact</a></li>
-        </ul>
-      </div>
-
-      {/* Customer Service */}
-      <div className="col-md-3 mb-4">
-        <h5 className="fw-bold">Customer Service</h5>
-        <ul className="list-unstyled">
-          <li><a href="#" className="text-light text-decoration-none">FAQs</a></li>
-          <li><a href="#" className="text-light text-decoration-none">Return Policy</a></li>
-          <li><a href="#" className="text-light text-decoration-none">Privacy Policy</a></li>
-          <li><a href="#" className="text-light text-decoration-none">Terms & Conditions</a></li>
-        </ul>
-      </div>
-
-      {/* Contact Info */}
-      <div className="col-md-3 mb-4">
-        <h5 className="fw-bold">Contact Us</h5>
-        <p className="mb-1">📍 Erode, Tamil Nadu, India</p>
-        <p className="mb-1">📞 +91 9789301648</p>
-        <p className="mb-1">✉️ support@rafcart.com</p>
-        <div className="mt-3">
-          <a href="#" className="text-light me-3"><i className="bi bi-facebook"></i></a>
-          <a href="#" className="text-light me-3"><i className="bi bi-instagram"></i></a>
-          <a href="#" className="text-light"><i className="bi bi-twitter"></i></a>
-        </div>
-      </div>
-
-    </div>
-
-    <hr className="border-secondary" />
-    <div className="text-center">
-      <p className="mb-0">&copy; {new Date().getFullYear()} RafCart. All Rights Reserved.</p>
-    </div>
-  </div>
-</footer>
-
-
     </div>
   );
 }

@@ -112,7 +112,7 @@ export default function Mainpage() {
           </div>
         </div>
       </div>
-    ))}  {/* ✅ closes .map() correctly */}
+    ))}  
   </div>
 </div>
 

@@ -12,11 +12,12 @@
 
 .product-img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
-  display: block;
-  border-radius: 5px;
+  height: 250px;         /* Adjust height as you want */
+  object-fit: contain;   /* Shows full image without cropping */
+  padding: 10px;         /* Optional spacing inside card */
+  background-color: #fff; /* Optional clean look */
 }
+
 
 @media (max-width: 768px) {
   .product-img {

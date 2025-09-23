@@ -19,46 +19,8 @@ export default function Mainpage() {
   
   return (
     <div>
-     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
-  <div className="container">
-    {/* ✅ Logo with brand name */}
-    <Link className="navbar-brand fw-bold d-flex align-items-center" to="/">
-      <img 
-        src="/Websitelogo.jpg" 
-        alt="Logo" 
-        style={{ height: "40px", marginRight: "8px" }} 
-      />
-      
-    </Link>
 
-    {/* ✅ Mobile toggle button */}
-    <button 
-      className="navbar-toggler" 
-      type="button" 
-      data-bs-toggle="collapse" 
-      data-bs-target="#navbarNav"
-    >
-      <span className="navbar-toggler-icon"></span>
-    </button>
-
-    {/* ✅ Links & buttons */}
-    <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
-      <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-        <li className="nav-item"><a className='nav-link' href='#home'>Home</a></li>
-        <li className="nav-item"><a className='nav-link' href='#about'>About</a></li>
-        <li className="nav-item"><Link className="nav-link" to="/product/:id">Products</Link></li>
-      </ul>
-
-      <div className="d-flex align-items-center">
-        {/* <Link to="/cart" className="btn btn-outline-primary me-2">Cart</Link> */}
-        <Link to="/" className="btn btn-danger">Logout</Link>
-      </div>
-    </div>
-  </div>
-</nav>
-
-
-<Carousel className="hero-carousel" interval={3000} fade>
+<Carousel className="hero-carousel" interval={3000} fade id="home">
   <Carousel.Item>
     <img className="d-block w-100" src="/images/product/iphoneimg.jfif" alt="Banner 1" />
   </Carousel.Item>
@@ -145,63 +107,6 @@ export default function Mainpage() {
   </div>
 </div>
 
-
-<footer className="bg-dark text-light pt-5 pb-3 mt-5">
-  <div className="container">
-    <div className="row">
-      
-      {/* Brand Info */}
-      <div className="col-md-3 mb-4">
-        <h5 className="fw-bold">ElectroMart</h5>
-        <p>
-          Your one-stop online store for gadgets, fashion, and more.  
-          Quality products, secure payments, and fast delivery.
-        </p>
-      </div>
-
-      {/* Quick Links */}
-      <div className="col-md-3 mb-4">
-        <h5 className="fw-bold">Quick Links</h5>
-        <ul className="list-unstyled">
-          <li><a href="#home" className="text-light text-decoration-none">Home</a></li>
-          <li><a href="#about" className="text-light text-decoration-none">About Us</a></li>
-          <li><a href="#products" className="text-light text-decoration-none">Products</a></li>
-          <li><a href="#contact" className="text-light text-decoration-none">Contact</a></li>
-        </ul>
-      </div>
-
-      {/* Customer Service */}
-      <div className="col-md-3 mb-4">
-        <h5 className="fw-bold">Customer Service</h5>
-        <ul className="list-unstyled">
-          <li><a href="#" className="text-light text-decoration-none">FAQs</a></li>
-          <li><a href="#" className="text-light text-decoration-none">Return Policy</a></li>
-          <li><a href="#" className="text-light text-decoration-none">Privacy Policy</a></li>
-          <li><a href="#" className="text-light text-decoration-none">Terms & Conditions</a></li>
-        </ul>
-      </div>
-
-      {/* Contact Info */}
-      <div className="col-md-3 mb-4">
-        <h5 className="fw-bold">Contact Us</h5>
-        <p className="mb-1">📍 Erode, Tamil Nadu, India</p>
-        <p className="mb-1">📞 +91 9789301648</p>
-        <p className="mb-1">✉️ bharath978930@gmail.com</p>
-        <div className="mt-3">
-          <a href="#" className="text-light me-3"><i className="bi bi-facebook"></i></a>
-          <a href="#" className="text-light me-3"><i className="bi bi-instagram"></i></a>
-          <a href="#" className="text-light"><i className="bi bi-twitter"></i></a>
-        </div>
-      </div>
-
-    </div>
-
-    <hr className="border-secondary" />
-    <div className="text-center">
-      <p className="mb-0">&copy; {new Date().getFullYear()} Electromart. All Rights Reserved.</p>
-    </div>
-  </div>
-</footer>
 
 
     </div>

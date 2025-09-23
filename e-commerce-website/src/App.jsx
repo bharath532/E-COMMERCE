@@ -4,10 +4,12 @@ import { Route, Routes } from "react-router-dom";
 
 import Login from "./Pages/LOGIN AND REGISTER/Login";
 import Register from "./Pages/LOGIN AND REGISTER/Register";
-import Mainpage from "./Pages/LOGIN AND REGISTER/Mainpage";
+import Mainpage from "./Pages/HOME/Mainpage";
 import Products from "./Pages/PRODUCT PAGES/Products";
 import Cart from "./Pages/ADD TO CART/Cart";
 import PrivateRoute from "./components/PrivateRoute"; // ✅ new import
+import Header from "./components/layouts/Header";
+import Footer from "./components/layouts/Footer";
 
 function App() {
   return (
@@ -22,11 +24,13 @@ function App() {
           path="/main"
           element={
             <PrivateRoute>
+              <Header/>
               <Mainpage />
+              <Footer/>
             </PrivateRoute>
           }
         />
-
+        
         <Route
           path="/product/:id"
           element={

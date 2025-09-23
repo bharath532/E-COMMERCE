@@ -1,35 +1,3 @@
-/* navbar */
-.navbar {
-  padding: 10px 0;
-}
-
-.navbar-brand img {
-  transition: transform 0.3s ease;
-}
-
-.navbar-brand img:hover {
-  transform: scale(1.1);  /* Logo zoom effect */
-}
-
-.nav-link {
-  font-weight: 500;
-  margin: 0 8px;
-}
-
-.nav-link:hover {
-  color: #007bff !important; /* Blue hover effect */
-}
-
-.btn-outline-primary {
-  border-radius: 20px;
-  padding: 4px 16px;
-}
-
-.btn-danger {
-  border-radius: 20px;
-  padding: 4px 16px;
-}
-
 
 
 

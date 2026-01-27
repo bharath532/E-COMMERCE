@@ -65,7 +65,6 @@ app.use(express.static(frontendPath));
 app.get("/api", (req, res) => {
   res.send("API is working!");
 });
-
 // Catch-all: for React Router (Refresh Fix)
 app.get("*", (req, res) => {
   res.setHeader("Content-Encoding", "identity"); // disable auto gzip

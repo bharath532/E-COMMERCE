@@ -41,7 +41,7 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ success: false, message: "User already exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 8);
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
 
@@ -60,57 +60,71 @@ router.post("/register", async (req, res) => {
 // ================================
 router.post("/login", async (req, res) => {
   console.log("Login request body:", req.body);
+  const { email, password } = req.body;
 
-  const validationError = validateLogin(req.body);
-  if (validationError) {
-    return res.status(400).json({ success: false, message: validationError });
+  // Minimal validation (fast)
+  if (!email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: "Email and password are required"
+    });
   }
 
   try {
-    const { email, password } = req.body;
-
-    const user = await User.findOne({ email });
-    console.log("Fetched user:", user);
+    // 🔥 Fetch only required fields
+    const user = await User.findOne(
+      { email },
+      "_id username email password"
+    );
 
     if (!user) {
-      console.warn("Login failed: User not found:", email);
-      return res.status(400).json({ success: false, message: "Invalid credentials" });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credentials"
+      });
     }
 
-    // Safe bcrypt comparison
-    let isMatch = false;
-    try {
-      isMatch = await bcrypt.compare(password, user.password);
-    } catch (err) {
-      console.error("Bcrypt compare error:", err);
-      return res.status(500).json({ success: false, message: "Password comparison failed" });
-    }
-
+    // 🔐 bcrypt (cannot avoid, but clean)
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      console.warn("Login failed: Wrong password for:", email);
-      return res.status(400).json({ success: false, message: "Invalid credentials" });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credentials"
+      });
     }
 
     if (!process.env.JWT_SECRET) {
-      console.error("JWT_SECRET not set in environment!");
-      return res.status(500).json({ success: false, message: "Server configuration error" });
+      return res.status(500).json({
+        success: false,
+        message: "Server configuration error"
+      });
     }
 
-    // Old JWT logic intact
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    const userData = { id: user._id, username: user.username, email: user.email };
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
 
-    console.log("Login successful for:", email);
     return res.status(200).json({
       success: true,
       message: "Login successful",
       token,
-      user: userData
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email
+      }
     });
+
   } catch (err) {
     console.error("Login Error:", err);
-    res.status(500).json({ success: false, message: "Server error" });
+    return res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
   }
 });
+
 
 export default router;
